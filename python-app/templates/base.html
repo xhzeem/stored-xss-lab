@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ProjectHub{% endblock %}</title>
+    <link rel="stylesheet" href="{{ prefix }}/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand"><a href="{{ prefix }}/">ProjectHub</a></div>
+        <div class="nav-links">
+            <a href="{{ prefix }}/">Dashboard</a>
+            <a href="{{ prefix }}/projects">Projects</a>
+            <a href="{{ prefix }}/notes">Notes</a>
+            <a href="{{ prefix }}/kanban">Kanban</a>
+            <a href="{{ prefix }}/wiki">Wiki</a>
+            <a href="{{ prefix }}/reports">Reports</a>
+            <a href="{{ prefix }}/contacts">Contacts</a>
+            <a href="{{ prefix }}/calendar">Calendar</a>
+            <a href="{{ prefix }}/settings">Settings</a>
+            <a href="{{ prefix }}/help">Help</a>
+            {% if session.get('username') %}
+                <span class="nav-user">{{ session.get('username') }}</span>
+                <a href="{{ prefix }}/logout" class="nav-logout">Logout</a>
+            {% else %}
+                <a href="{{ prefix }}/login" class="nav-login">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+        <p>ProjectHub &mdash; Project Management Suite | <a href="{{ prefix }}/health">Health</a></p>
+    </footer>
+</body>
+</html>

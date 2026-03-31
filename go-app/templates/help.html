@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<div class="page-header">
+    <h1>Help &amp; Documentation</h1>
+    <p>Everything you need to know about using the Support Desk.</p>
+</div>
+
+<div class="card help-content">
+    <h3>Getting Started</h3>
+    <p>The Support Desk is your one-stop portal for IT support requests. You can submit tickets, chat with support staff, and track the status of your requests.</p>
+
+    <h3>Submitting a Ticket</h3>
+    <p>Navigate to <a href="{{.Prefix}}/tickets">Tickets</a> and click "Create New Ticket". Fill in the subject, description, and select a priority level. Your ticket will be queued for review by our support team.</p>
+
+    <h3>Live Chat</h3>
+    <p>For quick questions, use the <a href="{{.Prefix}}/chat">Live Chat</a> feature. Messages are visible to all team members, so avoid sharing sensitive information.</p>
+
+    <h3>Notifications</h3>
+    <p>Check the <a href="{{.Prefix}}/notifications">Notifications</a> page for updates on your tickets, assignments, and system announcements.</p>
+
+    <h3>Memos</h3>
+    <p>The <a href="{{.Prefix}}/memos">Memo Board</a> contains internal communications from management and team leads. Important policy changes and announcements are posted here.</p>
+
+    <h3>Release Notes</h3>
+    <p>Track platform updates on the <a href="{{.Prefix}}/releases">Releases</a> page. New features, bug fixes, and maintenance schedules are documented here.</p>
+
+    <h3>CSV Import</h3>
+    <p>Use <a href="{{.Prefix}}/csv-import">CSV Import</a> to bulk-upload data such as employee records, inventory lists, or contact information. Enter data as comma-separated values.</p>
+
+    <h3>Saved Searches</h3>
+    <p>Save frequently used search queries on the <a href="{{.Prefix}}/search">Searches</a> page for quick access. Use filters like <code>status:open</code>, <code>priority:high</code>, or <code>subject:keyword</code>.</p>
+
+    <h3>Admin Panel</h3>
+    <p>Administrators can access the <a href="{{.Prefix}}/admin">Admin Queue</a> to manage all tickets, assign priorities, and preview ticket details.</p>
+
+    <h3>Test Accounts</h3>
+    <p>The following accounts are available for testing:</p>
+    <table style="max-width:400px;">
+        <thead><tr><th>Username</th><th>Password</th><th>Role</th></tr></thead>
+        <tbody>
+            <tr><td>user</td><td>user123</td><td>user</td></tr>
+            <tr><td>mod</td><td>mod123</td><td>moderator</td></tr>
+            <tr><td>admin</td><td>admin123</td><td>admin</td></tr>
+            <tr><td>support1</td><td>pass123</td><td>support</td></tr>
+            <tr><td>support2</td><td>pass123</td><td>support</td></tr>
+        </tbody>
+    </table>
+</div>
+
+    </div>
+</body>
+</html>

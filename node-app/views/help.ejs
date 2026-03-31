@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<h1>Help &amp; Documentation</h1>
+<p>Welcome to the CMS Dashboard help center.</p>
+
+<div class="card">
+  <h2>Getting Started</h2>
+  <p>The CMS Dashboard is a content management system that lets you create and manage pages, reviews, media, and marketing campaigns.</p>
+  <ul>
+    <li><strong>Pages</strong> - Create and publish CMS pages with HTML content</li>
+    <li><strong>Reviews</strong> - Collect and display product reviews</li>
+    <li><strong>Media</strong> - Upload and manage images and files</li>
+    <li><strong>Blocks</strong> - Create reusable content blocks</li>
+    <li><strong>Campaigns</strong> - Manage marketing campaigns across channels</li>
+    <li><strong>Tags</strong> - Organize content with tags</li>
+    <li><strong>Audit</strong> - View system activity log</li>
+    <li><strong>Import</strong> - Bulk import CSV data</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>API Reference</h2>
+  <p>All pages are publicly accessible. No authentication is required to view content.</p>
+  <table>
+    <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+    <tr><td>GET</td><td>/</td><td>Dashboard</td></tr>
+    <tr><td>GET</td><td>/pages</td><td>List all pages</td></tr>
+    <tr><td>POST</td><td>/pages</td><td>Create a page</td></tr>
+    <tr><td>GET</td><td>/pages/:slug</td><td>View a page</td></tr>
+    <tr><td>GET</td><td>/reviews</td><td>List reviews</td></tr>
+    <tr><td>POST</td><td>/reviews</td><td>Submit a review</td></tr>
+    <tr><td>GET</td><td>/media</td><td>Media gallery</td></tr>
+    <tr><td>POST</td><td>/media</td><td>Upload media</td></tr>
+    <tr><td>GET</td><td>/blocks</td><td>Content blocks</td></tr>
+    <tr><td>POST</td><td>/blocks</td><td>Create block</td></tr>
+    <tr><td>GET</td><td>/campaigns</td><td>List campaigns</td></tr>
+    <tr><td>POST</td><td>/campaigns</td><td>Create campaign</td></tr>
+    <tr><td>GET</td><td>/tags</td><td>List tags</td></tr>
+    <tr><td>POST</td><td>/tags</td><td>Create tag</td></tr>
+    <tr><td>GET</td><td>/audit</td><td>Audit log</td></tr>
+    <tr><td>GET</td><td>/import</td><td>View imports</td></tr>
+    <tr><td>POST</td><td>/import</td><td>Import data</td></tr>
+    <tr><td>GET</td><td>/health</td><td>Health check</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Support</h2>
+  <p>For issues or questions, contact the admin team at admin@example.com.</p>
+</div>
+
+<%- include('partials/footer') %>

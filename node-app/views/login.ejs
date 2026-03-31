@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+
+<h1>Login</h1>
+<p>This login is optional. All pages are accessible without authentication.</p>
+
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<form method="POST" action="<%= prefix %>/login" class="form">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<div class="card" style="margin-top: 20px;">
+  <h3>Available Accounts</h3>
+  <table>
+    <tr><th>Username</th><th>Password</th><th>Role</th></tr>
+    <tr><td>user</td><td>user123</td><td>user</td></tr>
+    <tr><td>mod</td><td>mod123</td><td>moderator</td></tr>
+    <tr><td>admin</td><td>admin123</td><td>admin</td></tr>
+    <tr><td>editor1</td><td>edit123</td><td>editor</td></tr>
+    <tr><td>editor2</td><td>edit123</td><td>editor</td></tr>
+  </table>
+</div>
+
+<%- include('partials/footer') %>

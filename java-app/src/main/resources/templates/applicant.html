@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Applicant Details</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Applicant Details</h1>
+
+    <div th:if="${applicant}" class="card">
+        <h2 th:text="${applicant.name}"></h2>
+        <p><strong>Email:</strong> <span th:text="${applicant.email}"></span></p>
+        <p><strong>Position:</strong> <span th:text="${applicant.position}"></span></p>
+        <p><strong>Status:</strong> <span class="badge" th:classappend="${applicant.status}" th:text="${applicant.status}"></span></p>
+        <div class="summary">
+            <h3>Summary</h3>
+            <p th:text="${applicant.summary}"></p>
+        </div>
+        <p><strong>Applied:</strong> <span th:text="${applicant.createdAt}"></span></p>
+    </div>
+
+    <div th:if="${applicant == null}" class="card">
+        <p>Applicant not found.</p>
+    </div>
+
+    <a th:href="@{${prefix} + '/applicants'}" class="btn">Back to Applicants</a>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

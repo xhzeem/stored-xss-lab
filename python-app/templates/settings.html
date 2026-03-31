@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Settings{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h1>Project Settings</h1>
+</div>
+
+<div class="card">
+    <h2>Add/Update Setting</h2>
+    <form method="POST">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="project_id">Project</label>
+                <select id="project_id" name="project_id">
+                    <option value="">Global</option>
+                    {% for p in projects %}
+                    <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="flex:2">
+                <label for="key">Key</label>
+                <input type="text" id="key" name="key" placeholder="Setting key" required>
+            </div>
+            <div class="form-group" style="flex:2">
+                <label for="value">Value</label>
+                <input type="text" id="value" name="value" placeholder="Setting value" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<h2>Current Settings</h2>
+<table class="table">
+    <thead>
+        <tr><th>Project ID</th><th>Key</th><th>Value</th><th>Updated</th></tr>
+    </thead>
+    <tbody>
+        {% for s in settings %}
+        <tr>
+            <td>{{ s.project_id or 'Global' }}</td>
+            <td>{{ s.key }}</td>
+            <td>
+                <input type="hidden" name="current_value" value="{{ s.value|safe }}">
+                {{ s.value }}
+            </td>
+            <td>{{ s.updated_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Help{% endblock %}
+{% block content %}
+<h1>Help &amp; Documentation</h1>
+
+<div class="card">
+    <h2>Getting Started</h2>
+    <p class="wiki-content">ProjectHub is a project management suite designed for teams. Use the navigation bar to access different features.</p>
+</div>
+
+<div class="card">
+    <h2>Features</h2>
+    <ul style="padding-left:20px;line-height:1.8">
+        <li><strong>Projects</strong> - Create and manage project workspaces</li>
+        <li><strong>Notes</strong> - Team notes for collaboration and documentation</li>
+        <li><strong>Kanban</strong> - Visual task board with drag-and-drop columns</li>
+        <li><strong>Wiki</strong> - Project documentation and knowledge base</li>
+        <li><strong>Reports</strong> - Generate and review project reports</li>
+        <li><strong>Contacts</strong> - Contact directory for stakeholders</li>
+        <li><strong>Calendar</strong> - Schedule events and deadlines</li>
+        <li><strong>Settings</strong> - Configure project preferences</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>Demo Accounts</h2>
+    <table class="table">
+        <thead><tr><th>Username</th><th>Password</th><th>Role</th></tr></thead>
+        <tbody>
+            <tr><td>user</td><td>user123</td><td>user</td></tr>
+            <tr><td>mod</td><td>mod123</td><td>moderator</td></tr>
+            <tr><td>admin</td><td>admin123</td><td>admin</td></tr>
+            <tr><td>pm1</td><td>pm123</td><td>project_manager</td></tr>
+            <tr><td>dev1</td><td>dev123</td><td>developer</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>API Endpoints</h2>
+    <ul style="padding-left:20px;line-height:1.8">
+        <li><code>GET /health</code> - Health check endpoint</li>
+        <li><code>GET /</code> - Dashboard</li>
+        <li><code>GET|POST /projects</code> - List/create projects</li>
+        <li><code>GET /project/&lt;id&gt;</code> - View project</li>
+        <li><code>GET|POST /notes</code> - List/create notes</li>
+        <li><code>GET|POST /kanban</code> - Kanban board</li>
+        <li><code>GET|POST /wiki</code> - Wiki pages</li>
+        <li><code>GET|POST /reports</code> - Reports</li>
+        <li><code>GET|POST /contacts</code> - Contacts</li>
+        <li><code>GET|POST /calendar</code> - Calendar</li>
+        <li><code>GET|POST /settings</code> - Settings</li>
+    </ul>
+</div>
+{% endblock %}

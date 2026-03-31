@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<!--
+    XSS-GO-05: CSV Import
+    Difficulty: hard
+    Sink: HTML body
+    Stored field: row_data (csv_imports table)
+    Vector: imported CSV cell rendered as raw HTML in results
+-->
+<div class="section-header">
+    <h1>CSV Import</h1>
+    <p style="color:#64748b;font-size:0.9rem;">Import CSV data for bulk operations.</p>
+</div>
+
+<div class="card">
+    <h2>Import CSV</h2>
+    <form method="post" action="{{.Prefix}}/csv-import">
+        <div class="form-group">
+            <label>Filename</label>
+            <input type="text" name="filename" placeholder="e.g. employees.csv">
+        </div>
+        <div class="form-group">
+            <label>CSV Data (one row per line, comma-separated)</label>
+            <textarea name="csvdata" rows="6" placeholder="Name,Department,Email,Phone&#10;John Doe,Engineering,john@corp.com,555-0100"></textarea>
+        </div>
+        <button type="submit" class="btn">Import Data</button>
+    </form>
+</div>
+
+<div class="card csv-results">
+    <h2>Imported Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Filename</th>
+                <th>Row Data</th>
+                <th>Imported</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Imports}}
+            <!-- XSS-GO-05: row_data rendered as raw HTML -->
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Filename}}</td>
+                <td>{{.RowHTML}}</td>
+                <td>{{.ImportedAt}}</td>
+            </tr>
+            {{end}}
+            {{if not .Imports}}
+            <tr><td colspan="4">No imported data.</td></tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+
+    </div>
+</body>
+</html>

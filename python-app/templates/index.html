@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Dashboard{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h1>Dashboard</h1>
+    <span>Welcome{{ ', ' + session.get('username', '') if session.get('username') else '' }}</span>
+</div>
+
+<h2>Active Projects</h2>
+<div class="grid">
+    {% for p in projects %}
+    <div class="card">
+        <h3>{{ p.name }}</h3>
+        <span class="badge badge-{{ p.status }}">{{ p.status }}</span>
+        <p style="margin-top:8px" aria-label="{{ p.description|safe }}">{{ p.description[:120] }}{% if p.description|length > 120 %}...{% endif %}</p>
+        <p style="margin-top:8px;font-size:0.85em;color:#666">Owner: {{ p.owner }} | {{ p.created_at }}</p>
+        <a href="{{ prefix }}/project/{{ p.id }}" class="btn" style="margin-top:8px">View</a>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 style="margin-top:24px">Recent Notes</h2>
+<div class="grid">
+    {% for n in recent_notes %}
+    <div class="card">
+        <h3>{{ n.title }}</h3>
+        <p style="margin-top:6px">{{ n.content[:150] }}{% if n.content|length > 150 %}...{% endif %}</p>
+        <p style="margin-top:8px;font-size:0.85em;color:#666">By {{ n.author }} | {{ n.created_at }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Help</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Help & Support</h1>
+    <p>Find answers to common questions and learn how to use the HR Portal.</p>
+
+    <div class="card">
+        <h2>Getting Started</h2>
+        <p>Welcome to the HR Portal! This internal system allows you to manage various HR-related tasks.</p>
+    </div>
+
+    <div class="card">
+        <h2>Features</h2>
+        <ul>
+            <li><strong>Applicants:</strong> Track job applications and candidate information</li>
+            <li><strong>Interviews:</strong> Record and review interview notes</li>
+            <li><strong>Employee Bios:</strong> Browse employee profiles</li>
+            <li><strong>Job Postings:</strong> View and post open positions</li>
+            <li><strong>Announcements:</strong> Company-wide news and updates</li>
+            <li><strong>Calendar:</strong> Upcoming events and meetings</li>
+            <li><strong>HR Tickets:</strong> Submit support requests</li>
+            <li><strong>Audit Log:</strong> System activity tracking</li>
+            <li><strong>Onboarding:</strong> New employee task management</li>
+            <li><strong>Wiki:</strong> Internal documentation</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Contact</h2>
+        <p>For technical support, please contact the IT department at <a href="mailto:it@company.com">it@company.com</a>.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

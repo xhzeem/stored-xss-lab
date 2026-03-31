@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Company Wiki</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Company Wiki</h1>
+    <p>Internal documentation and knowledge base for all employees.</p>
+
+    <div class="form-container">
+        <h2>Create Wiki Page</h2>
+        <form method="post" th:action="@{${prefix} + '/wiki'}">
+            <div class="form-group">
+                <label for="title">Page Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn">Create Page</button>
+        </form>
+    </div>
+
+    <h2>Wiki Pages</h2>
+    <div class="wiki-list">
+        <div class="wiki-page" th:each="page : ${pages}">
+            <h3 th:text="${page.title}"></h3>
+            <p class="author">By <span th:text="${page.author}"></span> on <span th:text="${page.createdAt}"></span></p>
+            <div class="wiki-content" th:utext="${page.content}"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<a href="<%= prefix %>/pages" class="btn btn-sm">&larr; Back to Pages</a>
+
+<article class="page-view">
+  <h1><%= page.title %></h1>
+  <div class="page-meta">
+    <span>By <strong><%= page.author %></strong></span>
+    <span class="badge"><%= page.status %></span>
+    <span>Slug: <code><%= page.slug %></code></span>
+    <span>Created: <%= page.created_at %></span>
+  </div>
+  <hr>
+  <!-- XSS-NODE-01: content unescaped -->
+  <div class="page-content">
+    <%- page.content %>
+  </div>
+</article>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<!--
+    XSS-GO-03: Notifications
+    Difficulty: medium
+    Sink: title attribute
+    Stored field: message (notifications table)
+    Vector: notification message rendered inside title="..." attribute
+-->
+<div class="section-header">
+    <h1>Notifications</h1>
+</div>
+
+<div class="card">
+    <h2>All Notifications</h2>
+    {{range .Notifications}}
+    <!-- XSS-GO-03: message rendered in title attribute -->
+    <div class="notification-item" title="{{.Message}}">
+        <div class="icon">
+            {{if eq .Type "ticket_update"}}&#128221;
+            {{else if eq .Type "ticket_closed"}}&#9989;
+            {{else if eq .Type "escalation"}}&#9888;
+            {{else if eq .Type "system"}}&#9881;
+            {{else if eq .Type "assignment"}}&#128100;
+            {{else if eq .Type "mention"}}&#128172;
+            {{else}}&#128276;
+            {{end}}
+        </div>
+        <div class="content">
+            <div>
+                <strong>{{.Username}}</strong>
+                <span class="badge">{{.Type}}</span>
+                {{if eq .IsRead 0}}<span style="color:#2563eb;font-size:0.75rem;">NEW</span>{{end}}
+            </div>
+            <div>{{.Message}}</div>
+            <div class="time">{{.CreatedAt}}</div>
+        </div>
+    </div>
+    {{end}}
+    {{if not .Notifications}}
+    <p>No notifications.</p>
+    {{end}}
+</div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Dashboard</title>
+  <link rel="stylesheet" href="<%= prefix %>/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="<%= prefix %>">CMS Dashboard</a></div>
+    <div class="nav-links">
+      <a href="<%= prefix %>">Dashboard</a>
+      <a href="<%= prefix %>/pages">Pages</a>
+      <a href="<%= prefix %>/reviews">Reviews</a>
+      <a href="<%= prefix %>/media">Media</a>
+      <a href="<%= prefix %>/blocks">Blocks</a>
+      <a href="<%= prefix %>/campaigns">Campaigns</a>
+      <a href="<%= prefix %>/tags">Tags</a>
+      <a href="<%= prefix %>/audit">Audit</a>
+      <a href="<%= prefix %>/import">Import</a>
+      <a href="<%= prefix %>/help">Help</a>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <span class="nav-user"><%= user.username %> (<%= user.role %>)</span>
+        <a href="<%= prefix %>/logout">Logout</a>
+      <% } else { %>
+        <a href="<%= prefix %>/login">Login</a>
+      <% } %>
+    </div>
+  </nav>
+  <main class="container">

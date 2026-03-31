@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Job Postings</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Job Postings</h1>
+    <p>Browse current open positions and apply today!</p>
+
+    <div class="form-container">
+        <h2>Post a New Job</h2>
+        <form method="post" th:action="@{${prefix} + '/jobs'}">
+            <div class="form-group">
+                <label for="title">Job Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="requirements">Requirements:</label>
+                <textarea id="requirements" name="requirements" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn">Post Job</button>
+        </form>
+    </div>
+
+    <h2>Current Openings</h2>
+    <div class="job-list">
+        <div class="job-card" th:each="job : ${jobs}">
+            <h3 th:text="${job.title}"></h3>
+            <p class="department" th:text="${job.department}"></p>
+            <div class="job-description">
+                <script th:inline="javascript">
+                    var desc = /*[[${job.description}]]*/ '';
+                    document.write('<p>' + desc + '</p>');
+                </script>
+            </div>
+            <p class="requirements"><strong>Requirements:</strong> <span th:text="${job.requirements}"></span></p>
+            <p class="date">Posted: <span th:text="${job.createdAt}"></span></p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

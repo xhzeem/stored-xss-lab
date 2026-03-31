@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+
+<h1>Dashboard</h1>
+<p>Welcome to the CMS Marketing Dashboard. Manage your content, campaigns, and media from one place.</p>
+
+<div class="dashboard-grid">
+  <div class="card">
+    <h2>Recent Pages</h2>
+    <% if (pages.length === 0) { %><p>No pages yet.</p><% } %>
+    <% pages.forEach(p => { %>
+      <div class="list-item">
+        <a href="<%= prefix %>/pages/<%= p.slug %>"><%= p.title %></a>
+        <span class="badge"><%= p.status %></span>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="card">
+    <h2>Recent Reviews</h2>
+    <% if (reviews.length === 0) { %><p>No reviews yet.</p><% } %>
+    <% reviews.forEach(r => { %>
+      <div class="list-item">
+        <strong><%= r.author %></strong> on <em><%= r.product %></em> - <%= r.rating %>/5
+        <p><%= r.content.substring(0, 80) %>...</p>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="card">
+    <h2>Active Campaigns</h2>
+    <% if (campaigns.length === 0) { %><p>No campaigns yet.</p><% } %>
+    <% campaigns.forEach(c => { %>
+      <div class="list-item">
+        <strong><%= c.name %></strong>
+        <span class="badge"><%= c.status %></span>
+        <!-- XSS-NODE-10: unescaped href -->
+        <a href="<%= prefix %><%- c.snippet %>" class="btn btn-sm">View</a>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="card">
+    <h2>Recent Media</h2>
+    <% if (media.length === 0) { %><p>No media yet.</p><% } %>
+    <% media.forEach(m => { %>
+      <div class="list-item">
+        <strong><%= m.filename %></strong>
+        <span class="badge"><%= m.uploaded_by %></span>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="card">
+    <h2>Tags</h2>
+    <% tags.forEach(t => { %>
+      <span class="tag"><%= t.name %></span>
+    <% }) %>
+  </div>
+
+  <div class="card">
+    <h2>Recent Activity</h2>
+    <% audit.forEach(a => { %>
+      <div class="list-item">
+        <span class="badge"><%= a.actor %></span>
+        <span><%= a.action %></span>
+        <small><%= a.created_at %></small>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

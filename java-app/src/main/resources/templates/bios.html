@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Employee Bios</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Employee Bios</h1>
+    <p>Learn about your colleagues through their profiles.</p>
+
+    <div class="form-container">
+        <h2>Add Employee Bio</h2>
+        <form method="post" th:action="@{${prefix} + '/bios'}">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="hobbies">Hobbies:</label>
+                <input type="text" id="hobbies" name="hobbies">
+            </div>
+            <button type="submit" class="btn">Submit Bio</button>
+        </form>
+    </div>
+
+    <h2>Employee Directory</h2>
+    <div class="card-grid">
+        <div class="bio-card" th:each="b : ${bios}">
+            <h3 th:text="${b.employeeName}"></h3>
+            <p class="department" th:text="${b.department}"></p>
+            <div class="bio-content">
+                <p th:utext="${b.bio}"></p>
+            </div>
+            <p class="hobbies"><strong>Hobbies:</strong> <span th:text="${b.hobbies}"></span></p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

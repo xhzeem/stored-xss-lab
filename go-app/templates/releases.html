@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<!--
+    XSS-GO-07: Release Notes
+    Difficulty: hard
+    Sink: HTML preview
+    Stored field: notes (releases table)
+    Vector: release notes rendered as raw HTML in preview pane
+-->
+<div class="section-header">
+    <h1>Release Notes</h1>
+</div>
+
+<div class="card">
+    <h2>Add Release Notes</h2>
+    <form method="post" action="{{.Prefix}}/releases">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Version</label>
+                <input type="text" name="version" placeholder="e.g. v2.6.0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Notes (supports formatting)</label>
+            <textarea name="notes" rows="5" placeholder="Describe what changed in this release..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Publish Release</button>
+    </form>
+</div>
+
+<h2 style="margin:1.5rem 0 1rem;">All Releases</h2>
+{{range .Releases}}
+<!-- XSS-GO-07: notes rendered as raw HTML in preview -->
+<div class="card release-card">
+    <div class="version">{{.Version}}</div>
+    <div style="color:#64748b;font-size:0.8rem;margin-bottom:0.75rem;">Released: {{.CreatedAt}}</div>
+    <div>{{.NotesHTML}}</div>
+</div>
+{{end}}
+{{if not .Releases}}
+<div class="card"><p>No releases yet.</p></div>
+{{end}}
+
+    </div>
+</body>
+</html>

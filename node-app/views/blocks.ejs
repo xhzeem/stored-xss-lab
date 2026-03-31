@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+
+<h1>Content Blocks</h1>
+<p>Manage reusable content blocks for your site layout.</p>
+
+<div class="card">
+  <h2>Create Content Block</h2>
+  <form method="POST" action="<%= prefix %>/blocks" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Block Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="block_type">Type</label>
+        <select id="block_type" name="block_type">
+          <option value="text">Text</option>
+          <option value="html">HTML</option>
+          <option value="json">JSON</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Block</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All Blocks</h2>
+  <% if (blocks.length === 0) { %>
+    <p>No content blocks.</p>
+  <% } else { %>
+    <div class="blocks-list">
+      <% blocks.forEach(b => { %>
+        <div class="block-item">
+          <h3><%= b.name %> <span class="badge"><%= b.block_type %></span></h3>
+          <small>Created: <%= b.created_at %></small>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- XSS-NODE-04: block content inserted into inline script as JSON -->
+    <script>
+      var contentBlocks = <%- JSON.stringify(blocks) %>;
+      var blockContainer = document.querySelector('.blocks-list');
+      contentBlocks.forEach(function(block) {
+        var preview = document.createElement('div');
+        preview.className = 'block-preview';
+        preview.innerHTML = '<strong>Preview:</strong> ' + block.content;
+        var items = document.querySelectorAll('.block-item');
+        if (items[contentBlocks.indexOf(block)]) {
+          items[contentBlocks.indexOf(block)].appendChild(preview);
+        }
+      });
+    </script>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

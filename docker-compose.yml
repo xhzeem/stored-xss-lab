@@ -1,0 +1,119 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: xss-lab-nginx
+    ports:
+      - "4444:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - php-app
+      - go-app
+      - java-app
+      - node-app
+      - python-app
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+
+  php-app:
+    build:
+      context: ./php-app
+      dockerfile: Dockerfile
+    container_name: xss-lab-php
+    volumes:
+      - ./php-app:/var/www/html
+      - php-data:/var/www/data
+    environment:
+      - DB_PATH=/var/www/data/app.db
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  go-app:
+    build:
+      context: ./go-app
+      dockerfile: Dockerfile
+    container_name: xss-lab-go
+    volumes:
+      - go-data:/app/data
+    environment:
+      - DB_PATH=/app/data/app.db
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  java-app:
+    build:
+      context: ./java-app
+      dockerfile: Dockerfile
+    container_name: xss-lab-java
+    volumes:
+      - java-data:/app/data
+    environment:
+      - DB_PATH=/app/data/app.db
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  node-app:
+    build:
+      context: ./node-app
+      dockerfile: Dockerfile
+    container_name: xss-lab-node
+    volumes:
+      - node-data:/app/data
+    environment:
+      - DB_PATH=/app/data/app.db
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  python-app:
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
+    container_name: xss-lab-python
+    volumes:
+      - python-data:/app/data
+    environment:
+      - DB_PATH=/app/data/app.db
+    networks:
+      - xss-lab-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  xss-lab-network:
+    driver: bridge
+
+volumes:
+  php-data:
+  go-data:
+  java-data:
+  node-data:
+  python-data:

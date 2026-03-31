@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Onboarding</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Employee Onboarding</h1>
+    <p>Track new employee onboarding tasks and progress.</p>
+
+    <div class="form-container">
+        <h2>Add Onboarding Task</h2>
+        <form method="post" th:action="@{${prefix} + '/onboarding'}">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="taskName">Task Name:</label>
+                <input type="text" id="taskName" name="taskName" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="completed" value="true"> Completed
+                </label>
+            </div>
+            <button type="submit" class="btn">Add Task</button>
+        </form>
+    </div>
+
+    <h2>Onboarding Checklist</h2>
+    <div class="task-list">
+        <div class="task-card" th:each="task : ${tasks}" th:classappend="${task.completed ? 'completed' : ''}">
+            <div class="task-header">
+                <span class="status-icon" th:text="${task.completed ? '&#10003;' : '&#9744;'}"></span>
+                <h3 th:text="${task.taskName}"></h3>
+            </div>
+            <p class="employee">For: <span th:text="${task.employeeName}"></span></p>
+            <div class="task-notes" th:utext="${task.notes}"></div>
+            <p class="date">Created: <span th:text="${task.createdAt}"></span></p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

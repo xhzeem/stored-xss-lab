@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Applicants</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>Applicant Tracking</h1>
+    <p>Manage job applications and candidate information.</p>
+
+    <div class="form-container">
+        <h2>Add Applicant</h2>
+        <form method="post" th:action="@{${prefix} + '/applicants'}">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="position" required>
+            </div>
+            <div class="form-group">
+                <label for="summary">Summary:</label>
+                <textarea id="summary" name="summary" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn">Add Applicant</button>
+        </form>
+    </div>
+
+    <h2>Quick Search</h2>
+    <div class="form-container">
+        <select id="applicantSelect">
+            <option value="">-- Select an applicant --</option>
+            <option th:each="app : ${applicants}"
+                    th:value="${app.id}"
+                    th:label="${app.summary}"
+                    th:text="${app.name}">
+            </option>
+        </select>
+    </div>
+
+    <h2>All Applicants</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="app : ${applicants}">
+                    <td th:text="${app.id}"></td>
+                    <td th:text="${app.name}"></td>
+                    <td th:text="${app.email}"></td>
+                    <td th:text="${app.position}"></td>
+                    <td><span class="badge" th:classappend="${app.status}" th:text="${app.status}"></span></td>
+                    <td th:text="${app.createdAt}"></td>
+                    <td><a th:href="@{${prefix} + '/applicants/' + ${app.id}}" class="btn-small">View</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

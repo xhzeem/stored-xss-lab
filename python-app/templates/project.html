@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - {{ project.name if project else 'Not Found' }}{% endblock %}
+{% block content %}
+{% if project %}
+<div class="section-header">
+    <h1>{{ project.name }}</h1>
+    <span class="badge badge-{{ project.status }}">{{ project.status }}</span>
+</div>
+
+<div class="card">
+    <h2>Description</h2>
+    <div class="wiki-content">{{ project.description|safe }}</div>
+    <p style="margin-top:12px;font-size:0.85em;color:#666">Owner: {{ project.owner }} | Created: {{ project.created_at }}</p>
+</div>
+
+<h2>Project Notes</h2>
+<div class="grid">
+    {% for n in notes %}
+    <div class="card">
+        <h3>{{ n.title }}</h3>
+        <p style="margin-top:6px">{{ n.content }}</p>
+        <p style="margin-top:8px;font-size:0.85em;color:#666">By {{ n.author }} | {{ n.created_at }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<a href="{{ prefix }}/projects" class="btn" style="margin-top:16px">Back to Projects</a>
+{% else %}
+<h1>Project Not Found</h1>
+<p>The requested project does not exist.</p>
+<a href="{{ prefix }}/projects" class="btn">Back to Projects</a>
+{% endif %}
+{% endblock %}

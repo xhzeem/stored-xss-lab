@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Login{% endblock %}
+{% block content %}
+<h1>Login</h1>
+<p style="margin-bottom:16px;color:#a0a0b0">Login is optional. All pages are accessible without authentication.</p>
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+<div class="card" style="max-width:400px">
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn">Login</button>
+    </form>
+</div>
+<p style="margin-top:16px;font-size:0.85em;color:#666">Demo accounts: user/user123, mod/mod123, admin/admin123, pm1/pm123, dev1/dev123</p>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Reports{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h1>Reports</h1>
+</div>
+
+<div class="card">
+    <h2>Create Report</h2>
+    <form method="POST">
+        <div class="form-inline">
+            <div class="form-group" style="flex:2">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" placeholder="Report title" required>
+            </div>
+            <div class="form-group">
+                <label for="report_type">Type</label>
+                <select id="report_type" name="report_type">
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="incident">Incident</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" placeholder="Report content..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Submit Report</button>
+    </form>
+</div>
+
+<h2>All Reports</h2>
+<div class="card">
+    <label for="report-filter" style="margin-bottom:8px;display:block">Filter by type:</label>
+    <select id="report-filter" style="margin-bottom:16px">
+        <option value="all">All Reports</option>
+        {% for r in reports %}
+        <option value="{{ r.id }}">{{ r.title|safe }} ({{ r.report_type }})</option>
+        {% endfor %}
+    </select>
+
+    <table class="table">
+        <thead>
+            <tr><th>ID</th><th>Title</th><th>Type</th><th>Author</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            {% for r in reports %}
+            <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ r.title }}</td>
+                <td><span class="badge badge-active">{{ r.report_type }}</span></td>
+                <td>{{ r.author }}</td>
+                <td>{{ r.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

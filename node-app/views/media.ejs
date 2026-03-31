@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<h1>Media Manager</h1>
+<p>Upload and manage media files for your site.</p>
+
+<div class="card">
+  <h2>Upload Media</h2>
+  <form method="POST" action="<%= prefix %>/media" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="uploaded_by">Uploaded By</label>
+        <input type="text" id="uploaded_by" name="uploaded_by" required>
+      </div>
+      <div class="form-group">
+        <label for="filename">Filename</label>
+        <input type="text" id="filename" name="filename" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="alt_text">Alt Text</label>
+        <input type="text" id="alt_text" name="alt_text" placeholder="Image description">
+      </div>
+      <div class="form-group">
+        <label for="caption">Caption</label>
+        <input type="text" id="caption" name="caption" placeholder="Image caption">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="url">URL</label>
+      <input type="text" id="url" name="url" placeholder="/images/filename.jpg">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Media</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Media Gallery</h2>
+  <% if (media.length === 0) { %>
+    <p>No media files.</p>
+  <% } else { %>
+    <div class="media-grid">
+      <% media.forEach(m => { %>
+        <div class="media-item">
+          <!-- XSS-NODE-03: alt_text in img alt -->
+          <img src="<%= m.url || '/images/placeholder.jpg' %>" alt="<%- m.alt_text %>" class="media-thumb">
+          <div class="media-info">
+            <strong><%= m.filename %></strong>
+            <p><%= m.caption %></p>
+            <small>By <%= m.uploaded_by %> on <%= m.created_at %></small>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

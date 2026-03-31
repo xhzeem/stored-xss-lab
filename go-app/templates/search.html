@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<!--
+    XSS-GO-08: Saved Searches
+    Difficulty: medium
+    Sink: aria-label attribute
+    Stored field: name (saved_searches table)
+    Vector: saved search name rendered in aria-label="..." attribute
+-->
+<div class="section-header">
+    <h1>Saved Searches</h1>
+</div>
+
+<div class="card">
+    <h2>Save New Search</h2>
+    <form method="post" action="{{.Prefix}}/search">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" name="username" placeholder="Username"
+                    value="{{if .CurrentUser}}{{.CurrentUser}}{{end}}">
+            </div>
+            <div class="form-group">
+                <label>Search Name</label>
+                <input type="text" name="name" placeholder="e.g. My Open Tickets">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Query</label>
+            <input type="text" name="query" placeholder="e.g. status:open priority:high">
+        </div>
+        <button type="submit" class="btn">Save Search</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>All Saved Searches</h2>
+    {{range .Searches}}
+    <!-- XSS-GO-08: name rendered in aria-label attribute -->
+    <div class="search-item">
+        <div>
+            <div class="name">
+                <a href="#" aria-label="Search: {{.Name}}">{{.Name}}</a>
+            </div>
+            <div class="query">{{.Query}}</div>
+        </div>
+        <div style="font-size:0.8rem;color:#64748b;">
+            by {{.Username}} &middot; {{.CreatedAt}}
+        </div>
+    </div>
+    {{end}}
+    {{if not .Searches}}
+    <p>No saved searches.</p>
+    {{end}}
+</div>
+
+    </div>
+</body>
+</html>

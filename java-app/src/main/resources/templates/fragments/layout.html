@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">HR Portal</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<header th:fragment="header">
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a th:href="@{${prefix} + '/'}">HR Portal</a>
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{${prefix} + '/'}">Dashboard</a></li>
+            <li><a th:href="@{${prefix} + '/applicants'}">Applicants</a></li>
+            <li><a th:href="@{${prefix} + '/interviews'}">Interviews</a></li>
+            <li><a th:href="@{${prefix} + '/bios'}">Employee Bios</a></li>
+            <li><a th:href="@{${prefix} + '/jobs'}">Job Postings</a></li>
+            <li><a th:href="@{${prefix} + '/announcements'}">Announcements</a></li>
+            <li><a th:href="@{${prefix} + '/calendar'}">Calendar</a></li>
+            <li><a th:href="@{${prefix} + '/tickets'}">HR Tickets</a></li>
+            <li><a th:href="@{${prefix} + '/audit'}">Audit Log</a></li>
+            <li><a th:href="@{${prefix} + '/onboarding'}">Onboarding</a></li>
+            <li><a th:href="@{${prefix} + '/wiki'}">Wiki</a></li>
+        </ul>
+    </nav>
+</header>
+
+<footer th:fragment="footer">
+    <div class="footer">
+        <p>HR Portal - Internal Use Only</p>
+    </div>
+</footer>
+</body>
+</html>

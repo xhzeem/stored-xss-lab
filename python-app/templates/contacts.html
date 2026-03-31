@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}ProjectHub - Contacts{% endblock %}
+{% block content %}
+<div class="section-header">
+    <h1>Contact Directory</h1>
+</div>
+
+<div class="card">
+    <h2>Add Contact</h2>
+    <form method="POST">
+        <div class="form-inline">
+            <div class="form-group" style="flex:2">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Full name" required>
+            </div>
+            <div class="form-group" style="flex:2">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="email@example.com">
+            </div>
+            <div class="form-group" style="flex:2">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" placeholder="Company name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" placeholder="Notes about this contact..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add Contact</button>
+    </form>
+</div>
+
+<h2>All Contacts</h2>
+<div class="grid">
+    {% for c in contacts %}
+    <div class="card">
+        <div class="contact-card" title="{{ c.notes|safe }}">
+            <div class="contact-info">
+                <div class="contact-name">{{ c.name }}</div>
+                <div class="contact-company">{{ c.company }}</div>
+                <div class="contact-email">{{ c.email }}</div>
+            </div>
+        </div>
+        <p style="margin-top:8px;font-size:0.85em;color:#a0a0b0">{{ c.notes }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

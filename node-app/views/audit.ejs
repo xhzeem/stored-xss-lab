@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<h1>Audit Log</h1>
+<p>Track all actions performed in the system.</p>
+
+<div class="card">
+  <h2>Activity Log</h2>
+  <% if (logs.length === 0) { %>
+    <p>No audit entries.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Actor</th><th>Action</th><th>Details</th><th>Timestamp</th></tr>
+      </thead>
+      <tbody>
+        <% logs.forEach(a => { %>
+          <tr>
+            <td><%= a.id %></td>
+            <td><span class="badge"><%= a.actor %></span></td>
+            <td><%= a.action %></td>
+            <!-- XSS-NODE-07: details in data-attr, then read by JS innerHTML -->
+            <td class="audit-detail" data-details="<%- a.details %>" onclick="this.innerHTML=this.dataset.details"><%= a.details %> (click to expand)</td>
+            <td><%= a.created_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<h1>Tag Management</h1>
+<p>Organize your content with tags.</p>
+
+<div class="card">
+  <h2>Create Tag</h2>
+  <form method="POST" action="<%= prefix %>/tags" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Tag Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Brief description">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Tag</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All Tags</h2>
+  <% if (tags.length === 0) { %>
+    <p>No tags yet.</p>
+  <% } else { %>
+    <form method="POST" action="<%= prefix %>/tags/bulk" class="form">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Description</th><th>Select</th><th>Created</th></tr>
+        </thead>
+        <tbody>
+          <% tags.forEach(t => { %>
+            <tr>
+              <td><%= t.id %></td>
+              <td><span class="tag"><%= t.name %></span></td>
+              <td><%= t.description %></td>
+              <td>
+                <!-- XSS-NODE-06: tag name in hidden input -->
+                <input type="hidden" name="tag_ids" value="<%- t.name %>">
+                <input type="checkbox" name="selected" value="<%= t.id %>">
+              </td>
+              <td><%= t.created_at %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </form>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

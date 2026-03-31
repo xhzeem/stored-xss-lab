@@ -1,0 +1,74 @@
+<%- include('partials/header') %>
+
+<h1>Pages</h1>
+<p>Manage your CMS pages. Create, edit, and publish content.</p>
+
+<div class="card">
+  <h2>Create New Page</h2>
+  <form method="POST" action="<%= prefix %>/pages" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Page title" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="slug">Slug</label>
+        <input type="text" id="slug" name="slug" placeholder="page-url-slug" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content">Content (HTML)</label>
+      <textarea id="content" name="content" rows="6" placeholder="Page content..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Page</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All Pages</h2>
+  <% if (pages.length === 0) { %>
+    <p>No pages found.</p>
+  <% } else { %>
+    <!-- XSS-NODE-09: title rendered in option label inside select -->
+    <label for="page-select">Select a page to compare:</label>
+    <select id="page-select">
+      <option value="">-- Choose --</option>
+      <% pages.forEach(p => { %>
+        <option value="<%- p.id %>"><%- p.title %></option>
+      <% }) %>
+    </select>
+
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Title</th><th>Slug</th><th>Author</th><th>Status</th><th>Created</th></tr>
+      </thead>
+      <tbody>
+        <% pages.forEach(p => { %>
+          <tr>
+            <td><%= p.id %></td>
+            <td><a href="<%= prefix %>/pages/<%= p.slug %>"><%= p.title %></a></td>
+            <td><code><%= p.slug %></code></td>
+            <td><%= p.author %></td>
+            <td><span class="badge"><%= p.status %></span></td>
+            <td><%= p.created_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - Dashboard</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>HR Portal Dashboard</h1>
+    <p>Welcome to the internal HR management portal. Use the navigation above to access different sections.</p>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Applicants</h3>
+            <p>Manage job applications and candidate information.</p>
+            <a th:href="@{${prefix} + '/applicants'}" class="btn">View Applicants</a>
+        </div>
+        <div class="card">
+            <h3>Interviews</h3>
+            <p>Review interview notes and feedback.</p>
+            <a th:href="@{${prefix} + '/interviews'}" class="btn">View Interviews</a>
+        </div>
+        <div class="card">
+            <h3>Employee Bios</h3>
+            <p>Browse employee profiles and bios.</p>
+            <a th:href="@{${prefix} + '/bios'}" class="btn">View Bios</a>
+        </div>
+        <div class="card">
+            <h3>Job Postings</h3>
+            <p>Current open positions and job descriptions.</p>
+            <a th:href="@{${prefix} + '/jobs'}" class="btn">View Jobs</a>
+        </div>
+        <div class="card">
+            <h3>Announcements</h3>
+            <p>Company-wide announcements and updates.</p>
+            <a th:href="@{${prefix} + '/announcements'}" class="btn">View Announcements</a>
+        </div>
+        <div class="card">
+            <h3>Calendar</h3>
+            <p>Upcoming events and meetings.</p>
+            <a th:href="@{${prefix} + '/calendar'}" class="btn">View Calendar</a>
+        </div>
+        <div class="card">
+            <h3>HR Tickets</h3>
+            <p>Submit and track HR support requests.</p>
+            <a th:href="@{${prefix} + '/tickets'}" class="btn">View Tickets</a>
+        </div>
+        <div class="card">
+            <h3>Audit Log</h3>
+            <p>System activity and audit trail.</p>
+            <a th:href="@{${prefix} + '/audit'}" class="btn">View Audit Log</a>
+        </div>
+        <div class="card">
+            <h3>Onboarding</h3>
+            <p>New employee onboarding tasks and checklist.</p>
+            <a th:href="@{${prefix} + '/onboarding'}" class="btn">View Onboarding</a>
+        </div>
+        <div class="card">
+            <h3>Company Wiki</h3>
+            <p>Internal documentation and knowledge base.</p>
+            <a th:href="@{${prefix} + '/wiki'}" class="btn">View Wiki</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

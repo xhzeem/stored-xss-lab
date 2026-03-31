@@ -1,0 +1,71 @@
+<%- include('partials/header') %>
+
+<h1>Marketing Campaigns</h1>
+<p>Create and manage your marketing campaigns across channels.</p>
+
+<div class="card">
+  <h2>Create Campaign</h2>
+  <form method="POST" action="<%= prefix %>/campaigns" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Campaign Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="channel">Channel</label>
+        <select id="channel" name="channel">
+          <option value="email">Email</option>
+          <option value="social">Social Media</option>
+          <option value="sms">SMS</option>
+          <option value="push">Push Notification</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="snippet">Campaign Link / Snippet</label>
+        <input type="text" id="snippet" name="snippet" placeholder="/campaigns/my-campaign" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft">Draft</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Campaign</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All Campaigns</h2>
+  <% if (campaigns.length === 0) { %>
+    <p>No campaigns yet.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Channel</th><th>Status</th><th>Actions</th><th>Created</th></tr>
+      </thead>
+      <tbody>
+        <% campaigns.forEach(c => { %>
+          <tr>
+            <td><%= c.id %></td>
+            <td><strong><%= c.name %></strong></td>
+            <td><span class="badge"><%= c.channel %></span></td>
+            <td><span class="badge badge-<%= c.status %>"><%= c.status %></span></td>
+            <td>
+              <!-- XSS-NODE-05: snippet in onclick handler -->
+              <button class="btn btn-sm" onclick="window.location='<%= prefix %><%- c.snippet %>'">View</button>
+              <button class="btn btn-sm btn-danger" onclick="alert('Deleting campaign: <%- c.snippet %>')">Delete</button>
+            </td>
+            <td><%= c.created_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal - HR Tickets</title>
+    <link rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<div class="container">
+    <h1>HR Support Tickets</h1>
+    <p>Submit and track your HR support requests.</p>
+
+    <div class="form-container">
+        <h2>Submit a Ticket</h2>
+        <form method="post" th:action="@{${prefix} + '/tickets'}">
+            <div class="form-group">
+                <label for="employeeName">Your Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn">Submit Ticket</button>
+        </form>
+    </div>
+
+    <h2>Open Tickets</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Subject</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ticket : ${tickets}">
+                    <td th:text="${ticket.id}"></td>
+                    <td th:text="${ticket.employeeName}"></td>
+                    <td>
+                        <span th:title="${'Subject: ' + ticket.subject}" th:text="${ticket.subject}"></span>
+                    </td>
+                    <td th:text="${ticket.description}"></td>
+                    <td>
+                        <span class="badge" th:classappend="${ticket.status}" th:text="${ticket.status}"></span>
+                    </td>
+                    <td th:text="${ticket.createdAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

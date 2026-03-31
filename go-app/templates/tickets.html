@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Support Desk</title>
+    <link rel="stylesheet" href="{{.Prefix}}/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="{{.Prefix}}/" class="brand">Support<span>Desk</span></a>
+        <ul>
+            <li><a href="{{.Prefix}}/">Dashboard</a></li>
+            <li><a href="{{.Prefix}}/tickets">Tickets</a></li>
+            <li><a href="{{.Prefix}}/chat">Chat</a></li>
+            <li><a href="{{.Prefix}}/notifications">Notifications</a></li>
+            <li><a href="{{.Prefix}}/memos">Memos</a></li>
+            <li><a href="{{.Prefix}}/releases">Releases</a></li>
+            <li><a href="{{.Prefix}}/csv-import">CSV Import</a></li>
+            <li><a href="{{.Prefix}}/search">Searches</a></li>
+            <li><a href="{{.Prefix}}/admin">Admin</a></li>
+            <li><a href="{{.Prefix}}/help">Help</a></li>
+            {{if .LoggedIn}}
+            <li><a href="{{.Prefix}}/logout">{{.CurrentUser}} (Logout)</a></li>
+            {{else}}
+            <li><a href="{{.Prefix}}/login">Login</a></li>
+            {{end}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{if .Flash}}<div class="card" style="background:#fef3c7;color:#92400e;margin-bottom:1rem;">{{.Flash}}</div>{{end}}
+
+<div class="section-header">
+    <h1>Tickets</h1>
+</div>
+
+<div class="card">
+    <h2>Create New Ticket</h2>
+    <form method="post" action="{{.Prefix}}/tickets">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" name="subject" placeholder="Brief description of the issue">
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <select name="priority">
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="4" placeholder="Describe your issue in detail..."></textarea>
+        </div>
+        <button type="submit" class="btn">Submit Ticket</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>All Tickets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Tickets}}
+            <tr>
+                <td>#{{.ID}}</td>
+                <td>{{.Subject}}</td>
+                <td><span class="badge {{.Status}}">{{.Status}}</span></td>
+                <td><span class="badge {{.Priority}}">{{.Priority}}</span></td>
+                <td>{{.CreatedAt}}</td>
+                <td><a href="{{.Prefix}}/ticket/{{.ID}}">View</a></td>
+            </tr>
+            {{end}}
+            {{if not .Tickets}}
+            <tr><td colspan="6">No tickets found.</td></tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+
+    </div>
+</body>
+</html>

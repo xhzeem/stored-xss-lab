@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+
+<h1>Product Reviews</h1>
+<p>Browse and submit product reviews.</p>
+
+<div class="card">
+  <h2>Submit a Review</h2>
+  <form method="POST" action="<%= prefix %>/reviews" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="author">Your Name</label>
+        <input type="text" id="author" name="author" required>
+      </div>
+      <div class="form-group">
+        <label for="product">Product</label>
+        <input type="text" id="product" name="product" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rating">Rating (1-5)</label>
+        <select id="rating" name="rating">
+          <option value="5">5 - Excellent</option>
+          <option value="4">4 - Good</option>
+          <option value="3">3 - Average</option>
+          <option value="2">2 - Poor</option>
+          <option value="1">1 - Terrible</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content">Review</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All Reviews</h2>
+  <% if (reviews.length === 0) { %>
+    <p>No reviews yet.</p>
+  <% } else { %>
+    <% reviews.forEach(r => { %>
+      <div class="review-item">
+        <div class="review-header">
+          <strong><%= r.author %></strong> reviewed <em><%= r.product %></em>
+          <span class="rating"><%= '★'.repeat(r.rating) %><%= '☆'.repeat(5 - r.rating) %></span>
+          <small><%= r.created_at %></small>
+        </div>
+        <!-- XSS-NODE-02: content unescaped -->
+        <div class="review-content">
+          <%- r.content %>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
